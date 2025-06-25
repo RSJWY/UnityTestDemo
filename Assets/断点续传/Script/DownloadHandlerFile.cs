@@ -1,7 +1,7 @@
 using System.IO;
 using UnityEngine.Networking;
 
-namespace Script.断点续传脚本
+namespace 断点续传.Script
 {
     public class DownloadHandlerFile : DownloadHandlerScript
     {
@@ -17,11 +17,14 @@ namespace Script.断点续传脚本
         /// 存储文件是否基于追加形式
         /// </summary>
         private bool append;
+        
+        DownloadTask downloadTask;
 
-        public DownloadHandlerFile(string path, bool append) : base()
+        public DownloadHandlerFile(string path, bool append,DownloadTask task) : base()
         {
             this.filePath = path;
             this.append = append;
+            downloadTask=task;
         
             // 确保目录存在
             string directory = Path.GetDirectoryName(path);
@@ -39,6 +42,11 @@ namespace Script.断点续传脚本
             );
         }
 
+        public void Pause()
+        {
+            fileStream.Close();
+        }
+
         /// <summary>
         /// 接收下载到的数据
         /// </summary>
@@ -48,6 +56,7 @@ namespace Script.断点续传脚本
                 return false;//终止下载器
 
             fileStream.Write(data, 0, dataLength);
+            downloadTask.downloadedBytes += dataLength;
             return true;//继续下载
         }
 

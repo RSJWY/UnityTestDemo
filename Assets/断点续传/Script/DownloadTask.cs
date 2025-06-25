@@ -1,8 +1,7 @@
 using System;
-using System.Net;
 using UnityEngine.Networking;
 
-namespace Script.断点续传脚本
+namespace 断点续传.Script
 {
     public class DownloadTask
     {
@@ -22,10 +21,6 @@ namespace Script.断点续传脚本
         /// </summary>
         public long downloadedBytes;
         /// <summary>
-        /// 下载的百分比
-        /// </summary>
-        public long progress=>downloadedBytes/totalBytes;
-        /// <summary>
         /// 已下载长度
         /// </summary>
         public long downloadProgress;
@@ -44,5 +39,9 @@ namespace Script.断点续传脚本
         /// 完成下载
         /// </summary>
         public Action<DownloadTask> onCompleted;
+        /// <summary>
+        /// 下载文件处理器
+        /// </summary>
+        public DownloadHandlerFile downloadHandlerFile;
     }
 }
